@@ -78,7 +78,6 @@
 
 </head>
 <body>
-    {% raw %}
     <header class="header">
        <a href="index.html" class="logo">
     <i class="fas fa-mug-hot"></i>
@@ -222,6 +221,5 @@
         function sendMsg(){const text=userInput.value.trim();if(text==='')return;addMsg(text,'user');userInput.value='';setTimeout(()=>{addMsg(getBotReply(text),'bot')},600)}
         sendBtn.onclick=sendMsg;userInput.addEventListener('keypress',(e)=>{if(e.key==='Enter')sendMsg()});
     </script>
-    {% endraw %}
 </body>
 </html>
