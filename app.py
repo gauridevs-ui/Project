@@ -1,55 +1,94 @@
-from flask import Flask, render_template, request, flash
+from flask import Flask, send_from_directory, request
+from flask_mysqldb import MySQL
 from flask_mail import Mail, Message
 import os
 
 app = Flask(__name__)
-app.secret_key = 'coffee_shop_secret_key'
 
-# Mail Config - Render Environment Variables se aayega
+# ================= MYSQL =================
+
+app.config['MYSQL_HOST'] = 'localhost'
+app.config['MYSQL_USER'] = 'root'
+app.config['MYSQL_PASSWORD'] = ''
+app.config['MYSQL_DB'] = 'coffee_shop'
+
+mysql = MySQL(app)
+
+# ================= GMAIL =================
+
 app.config['MAIL_SERVER'] = 'smtp.gmail.com'
 app.config['MAIL_PORT'] = 587
 app.config['MAIL_USE_TLS'] = True
+
+import os
+
 app.config['MAIL_USERNAME'] = os.environ.get('MAIL_USERNAME')
 app.config['MAIL_PASSWORD'] = os.environ.get('MAIL_PASSWORD')
-app.config['MAIL_DEFAULT_SENDER'] = os.environ.get('MAIL_USERNAME')
 
 mail = Mail(app)
 
+# ================= HTML PAGES =================
+
 @app.route('/')
 def home():
-    return render_template('index.html')
+    return send_from_directory('.', 'index.html')
 
-@app.route('/about')
-def about():
-    return render_template('about.html')
+@app.route('/contact.html')
+def contactpage():
+    return send_from_directory('.', 'contact.html')
 
-@app.route('/menu')
-def menu():
-    return render_template('menu.html')
+@app.route('/about.html')
+def aboutpage():
+    return send_from_directory('.', 'about.html')
 
-@app.route('/products')
-def products():
-    return render_template('products.html')
+@app.route('/menu.html')
+def menupage():
+    return send_from_directory('.', 'menu.html')
 
-@app.route('/contact', methods=['GET', 'POST'])
+@app.route('/products.html')
+def productpage():
+    return send_from_directory('.', 'products.html')
+
+# ================= CONTACT FORM =================
+
+@app.route('/contact', methods=['POST'])
 def contact():
-    if request.method == 'POST':
-        name = request.form['name']
-        email = request.form['email']
-        phone = request.form['phone']
-        message = request.form['message']
-        
-        # Sirf mail bhejo, database nahi
-        try:
-            msg = Message('New Contact from Coffee Shop', 
-                          recipients=[os.environ.get('MAIL_USERNAME')])
-            msg.body = f"Name: {name}\nEmail: {email}\nPhone: {phone}\nMessage: {message}"
-            mail.send(msg)
-            flash('Message Sent Successfully!', 'success')
-        except Exception as e:
-            flash(f'Error: {str(e)}', 'danger')
-            
-    return render_template('contact.html')
+
+    name = request.form['name']
+    email = request.form['email']
+    phone = request.form['phone']
+
+    # SAVE TO DATABASE
+
+    cur = mysql.connection.cursor()
+
+    cur.execute(
+        "INSERT INTO contacts(name,email,phone) VALUES(%s,%s,%s)",
+        (name, email, phone)
+    )
+
+    mysql.connection.commit()
+    cur.close()
+
+    # SEND EMAIL
+
+    msg = Message(
+        'New Contact Message',
+        sender=app.config['MAIL_USERNAME'],
+        recipients=[app.config['MAIL_USERNAME']]
+    )
+
+    msg.body = f'''
+    New Customer Contact
+
+    Name: {name}
+    Email: {email}
+    Phone: {phone}
+    '''
+
+    mail.send(msg)
+
+    return "Message Sent Successfully!"
 
 if __name__ == '__main__':
     app.run(debug=True)
