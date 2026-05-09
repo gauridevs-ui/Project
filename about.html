@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About - Bean & Bliss Café</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;500;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        *{font-family:'Roboto',sans-serif;margin:0;padding:0;box-sizing:border-box;outline:none;border:none;text-decoration:none;text-transform:capitalize;transition:.2s linear}
+        html{font-size:62.5%;overflow-x:hidden;scroll-behavior:smooth}
+        body{background:#010103}
+        section{padding:2rem 7%}
+        .heading{text-align:center;color:#fff;text-transform:uppercase;padding-bottom:3.5rem;font-size:4rem;padding-top:12rem}
+        .heading span{color:#d3ad7f}
+        .btn{margin-top:1rem;display:inline-block;padding:.9rem 3rem;font-size:1.7rem;color:#fff;background:#d3ad7f;cursor:pointer;border-radius:.5rem}
+        .btn:hover{letter-spacing:.2rem;background:#c19a6b}
+        .header{background:#010103;display:flex;align-items:center;justify-content:space-between;padding:1.5rem 7%;border-bottom:.1rem solid rgba(255,255,255,.3);position:fixed;top:0;left:0;right:0;z-index:1000}
+        .header .logo{display:flex;align-items:center;gap:1.5rem;font-size:2.7rem;color:#fff;font-weight:bold;font-family:'Playfair Display',serif}
+        .header .logo i{font-size:4.5rem;color:#d3ad7f;animation:steam 2s ease-in-out infinite}
+        @keyframes steam{0%,100%{transform:translateY(0)}50%{transform:translateY(-5px)}}
+        .header .logo span{color:#d3ad7f}
+        .header .navbar a{margin:0 1rem;font-size:1.6rem;color:#fff}
+        .header .navbar a:hover,.header .navbar a.active{color:#d3ad7f;border-bottom:.1rem solid #d3ad7f;padding-bottom:.5rem}
+        .header .icons div{color:#fff;cursor:pointer;font-size:2.5rem;margin-left:2rem}
+        #menu-btn{display:none}
+        .about .row{display:flex;align-items:center;background:#13131a;flex-wrap:wrap;border-radius:1rem}
+        .about .row .image{flex:1 1 45rem}
+        .about .row .image img{width:100%;border-radius:1rem}
+        .about .row .content{flex:1 1 45rem;padding:2rem}
+        .about .row .content h3{font-size:3rem;color:#fff;font-family:'Playfair Display',serif}
+        .about .row .content p{font-size:1.6rem;color:#ccc;padding:1rem 0;line-height:1.8;text-transform:none}
+        .about .features{display:grid;grid-template-columns:repeat(auto-fit,minmax(25rem,1fr));gap:2rem;margin-top:3rem}
+        .about .features .feature{background:#13131a;padding:3rem;text-align:center;border-radius:1rem;border:.1rem solid rgba(255,255,255,.3)}
+        .about .features .feature i{font-size:5rem;color:#d3ad7f;margin-bottom:1rem}
+        .about .features .feature h3{font-size:2rem;color:#fff;margin-bottom:1rem}
+        .about .features .feature p{font-size:1.5rem;color:#ccc;text-transform:none}
+        .footer{background:#13131a;text-align:center;padding:4rem 7%;margin-top:3rem}
+        .footer .share{padding:1rem 0;margin-bottom:2rem}
+        .footer .share a{height:5rem;width:5rem;line-height:5rem;font-size:2rem;color:#fff;border:.1rem solid rgba(255,255,255,.3);margin:.3rem;border-radius:50%;display:inline-block}
+        .footer .share a:hover{background-color:#d3ad7f;transform:translateY(-3px)}
+        .footer .credit{font-size:1.5rem;color:#ccc;font-weight:300;line-height:2;letter-spacing:.05rem}
+        .footer .credit .tagline-footer{font-size:1.8rem;color:#d3ad7f;font-family:'Playfair Display',serif;font-style:italic;margin-bottom:1.5rem;display:block}
+        .footer .credit .address{margin-top:1rem;font-size:1.4rem;color:#aaa}
+        .footer .credit .address i{color:#d3ad7f;margin-right:.5rem}
+        .footer .credit .address a{color:#aaa;text-transform:lowercase}
+        .footer .credit .address a:hover{color:#d3ad7f}
+        .modal{display:none;position:fixed;z-index:10001;left:0;top:0;width:100%;height:100%;background-color:rgba(0,0,0,0.8);animation:fadeIn 0.3s}
+        @keyframes fadeIn{from{opacity:0}to{opacity:1}}
+        .modal-content{background:#13131a;margin:5% auto;padding:0;width:90%;max-width:70rem;border-radius:1.5rem;border:2px solid #d3ad7f;animation:slideIn 0.4s;max-height:80vh;overflow-y:auto}
+        @keyframes slideIn{from{transform:translateY(-50px);opacity:0}to{transform:translateY(0);opacity:1}}
+        .modal-header{background:linear-gradient(135deg,#d3ad7f,#c19a6b);padding:2rem;border-radius:1.3rem 1.3rem 0 0;display:flex;align-items:center;justify-content:space-between}
+        .modal-header h2{color:#fff;font-size:2.5rem;font-family:'Playfair Display',serif}
+        .close{color:#fff;font-size:4rem;font-weight:bold;cursor:pointer;line-height:1}
+        .close:hover{color:#000}
+        .modal-body{padding:3rem;color:#ccc}
+        .modal-body h3{color:#d3ad7f;font-size:2.2rem;margin:2rem 0 1rem;font-family:'Playfair Display',serif}
+        .modal-body p{font-size:1.6rem;line-height:1.8;margin-bottom:1.5rem;text-transform:none}
+        .modal-body ul{margin-left:2rem;margin-bottom:1.5rem}
+        .modal-body ul li{font-size:1.6rem;line-height:1.8;margin-bottom:.8rem;text-transform:none;color:#ccc}
+        .modal-body .highlight{color:#d3ad7f;font-weight:600}
+        #coffee-bot-btn{position:fixed;bottom:20px;right:20px;width:80px;height:80px;cursor:pointer;z-index:9999;animation:bounce 2s ease-in-out infinite;filter:drop-shadow(0 4px 15px rgba(211,173,127,.6));background:#d3ad7f;border-radius:50%;display:flex;align-items:center;justify-content:center}
+        #coffee-bot-btn i{font-size:4rem;color:#fff}
+        @keyframes bounce{0%,100%{transform:translateY(0)}50%{transform:translateY(-10px)}}
+        #coffee-bot-btn:hover{transform:scale(1.1)}
+        #coffee-popup{position:fixed;bottom:110px;right:20px;background:#d3ad7f;color:#fff;padding:1rem 1.5rem;border-radius:2rem;font-size:1.4rem;z-index:9998;animation:popIn 0.5s ease;display:none;box-shadow:0 4px 15px rgba(0,0,0,.4);text-transform:none}
+        @keyframes popIn{from{opacity:0;transform:scale(0.8)}to{opacity:1;transform:scale(1)}}
+        #coffee-bot-box{position:fixed;bottom:110px;right:20px;width:370px;height:550px;background:#13131a;border:2px solid #d3ad7f;border-radius:15px;display:none;flex-direction:column;z-index:10000;box-shadow:0 5px 30px rgba(0,0,0,.6)}
+        .bot-header{background:linear-gradient(135deg,#d3ad7f,#c19a6b);padding:1.5rem;border-radius:13px 13px 0 0;display:flex;align-items:center;gap:1rem}
+        .bot-header h3{color:#fff;font-size:1.8rem;flex:1;font-family:'Playfair Display',serif}
+        #bot-close{color:#fff;font-size:3rem;cursor:pointer;line-height:1}
+        #bot-messages{flex:1;padding:1.5rem;overflow-y:auto;display:flex;flex-direction:column;gap:1rem}
+        .bot-msg,.user-msg{padding:1rem 1.5rem;border-radius:1rem;font-size:1.5rem;line-height:1.6;max-width:85%;text-transform:none}
+        .bot-msg{background:#010103;color:#eee;border:1px solid rgba(255,255,255,.1);align-self:flex-start}
+        .user-msg{background:#d3ad7f;color:#fff;align-self:flex-end}
+        .bot-input{padding:1rem;border-top:1px solid rgba(255,255,255,.3);display:flex;gap:.5rem}
+        .bot-input input{flex:1;padding:1.2rem;background:#010103;color:#fff;border:1px solid rgba(255,255,255,.3);border-radius:.5rem;font-size:1.5rem;text-transform:none}
+        #bot-send{background:#d3ad7f;color:#fff;padding:0 2rem;border-radius:.5rem;cursor:pointer;font-size:1.8rem}
+        @media (max-width:768px){#menu-btn{display:inline-block}.header .navbar{position:absolute;top:100%;right:-100%;background:#fff;width:30rem;height:calc(100vh - 9.5rem)}.header .navbar.active{right:0}.header .navbar a{color:#13131a;display:block;margin:1.5rem;padding:.5rem;font-size:2rem}.modal-content{width:95%;margin:10% auto}}
+        @media (max-width:450px){html{font-size:50%}#coffee-bot-box{width:calc(100% - 20px);height:70vh;right:10px;bottom:90px}}
+    </style>
+</head>
+
+
+<body>
+    <header class="header">
+        <a href="index.html" class="logo">
+    <i class="fas fa-mug-hot"></i>
+    Bean & Bliss <span>Café</span>
+     </a>
+        <nav class="navbar">
+            <a href="index.html">Home</a>
+            <a href="about.html" class="active">About</a>
+            <a href="menu.html">Menu</a>
+            <a href="products.html">Products</a>
+            <a href="contact.html">Contact</a>
+        </nav>
+        <div class="icons"><div id="menu-btn" class="fas fa-bars"></div></div>
+    </header>
+
+    <section class="about" id="about">
+        <h1 class="heading"><span>about</span> us</h1>
+        <div class="row">
+            <div class="image">
+                <img src="https://images.unsplash.com/photo-1442512595331-e89e73853f31?q=80&w=2070" alt="Coffee Shop">
+            </div>
+            <div class="content">
+                <h3>What Makes Our Coffee Special?</h3>
+                <p>At Bean & Bliss, we believe coffee is more than a drink - it's an experience. Founded in 2020 by Ravi Ji on Mandla Road, Tilhari, we source our beans directly from Chikmagalur hills.</p>
+                <p>Every cup is brewed with love and served with a smile. We offer free WiFi, cozy seating, and a pet-friendly environment.</p>
+                <button class="btn" id="learnMoreBtn">Learn More</button>
+            </div>
+        </div>
+
+        <div class="features">
+            <div class="feature">
+                <i class="fas fa-coffee"></i>
+                <h3>Premium Beans</h3>
+                <p>Direct from Chikmagalur hills. Fresh roasted every week.</p>
+            </div>
+            <div class="feature">
+                <i class="fas fa-wifi"></i>
+                <h3>Free WiFi</h3>
+                <p>Work from café. High-speed internet for all customers.</p>
+            </div>
+            <div class="feature">
+                <i class="fas fa-dog"></i>
+                <h3>Pet Friendly</h3>
+                <p>Bring your furry friends. We love pets!</p>
+            </div>
+        </div>
+    </section>
+
+    <div id="learnMoreModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2><i class="fas fa-mug-hot"></i> Our Story - Bean & Bliss Café</h2>
+                <span class="close">&times;</span>
+            </div>
+            <div class="modal-body">
+                <h3>☕ Kaise Shuru Hua?</h3>
+                <p><span class="highlight">Bean & Bliss Café</span> ki shuruwat 2020 mein <span class="highlight">Ravi Ji</span> ne ki thi. Unka sapna tha Jabalpur mein ek aisi jagah banana jahan log sirf coffee na piye, balki ek <span class="highlight">experience</span> le kar jayein.</p>
+                
+                <p>Hum <span class="highlight">Mandla Road, Tilhari</span> mein located hain. Ye jagah isliye choose ki kyunki yahan ka environment peaceful hai - padhai karne, kaam karne, ya doston ke saath time bitane ke liye perfect!</p>
+
+                <h3>🌱 Hum Kya Alag Karte Hain?</h3>
+                <ul>
+                    <li><span class="highlight">Direct Sourcing:</span> Hum apne coffee beans seedha Chikmagalur ke farmers se lete hain. No middleman, matlab fresh aur authentic quality.</li>
+                    <li><span class="highlight">Small Batch Roasting:</span> Har week fresh beans roast karte hain. Purani coffee kabhi serve nahi karte.</li>
+                    <li><span class="highlight">Handcrafted:</span> Har cup ko barista pyaar se banata hai. Machine nahi, insaan banata hai!</li>
+                    <li><span class="highlight">Community Space:</span> Free WiFi, charging points, comfortable seating - sab kuch hai. Students aur freelancers ka favorite spot.</li>
+                </ul>
+
+                <h3>🎯 Hamara Mission</h3>
+                <p>Jabalpur ke logon ko <span class="highlight">world-class coffee</span> affordable price mein dena. Saath mein ek aisi community banana jahan sab comfortable feel karein.</p>
+
+                <h3>🐕 Pet Friendly Café</h3>
+                <p>Haan! Aap apne dogs ko bhi la sakte ho. Hum unke liye paani ka bowl free mein dete hain. Kyunki pets bhi family hain! ❤️</p>
+
+                <h3>⏰ Timings</h3>
+                <p><span class="highlight">Roz Khula:</span> 8:00 AM - 10:00 PM<br>
+                <span class="highlight">Sunday:</span> Bhi khule hain! Kabhi band nahi hote.</p>
+
+                <h3>📍 Visit Karo</h3>
+                <p><span class="highlight">Address:</span> Mandla Road, Tilhari, Jabalpur - 482001<br>
+                <span class="highlight">Email:</span> beanbilsscafe@gmail.com<br>
+                <span class="highlight">Phone:</span> +91 +91 1222455748</p>
+
+                <p style="text-align:center;margin-top:2rem;font-size:1.8rem;color:#d3ad7f;font-style:italic;">"Your daily dose of comfort in a cup." ☕</p>
+            </div>
+        </div>
+    </div>
+
+    <section class="footer">
+        <div class="share">
+            <a href="#" class="fab fa-facebook-f"></a>
+            <a href="#" class="fab fa-twitter"></a>
+            <a href="https://instagram.com/beanandblisscafe" class="fab fa-instagram"></a>
+            <a href="#" class="fab fa-linkedin"></a>
+        </div>
+        <div class="credit">
+            <span class="tagline-footer">Your daily dose of comfort in a cup.</span>
+            <div class="address">
+                <p><i class="fas fa-coffee"></i> <strong>Bean & Bliss Café</strong></p>
+                <p><i class="fas fa-map-marker-alt"></i> Mandla Road, Tilhari</p>
+                <p>Jabalpur, Madhya Pradesh – 482001, India</p>
+                <p><i class="fas fa-envelope"></i> <a href="mailto:beanbilsscafe@gmail.com">beanbilsscafe@gmail.com</a></p>
+                <p><i class="fas fa-phone"></i> +91 98765 43210</p>
+            </div>
+        </div>
+    </section>
+
+    <div id="coffee-popup">Hi! Coffee chahiye? ☕</div>
+    <div id="coffee-bot-btn">
+        <i class="fas fa-mug-hot"></i>
+    </div>
+    <div id="coffee-bot-box">
+        <div class="bot-header">
+            <h3><i class="fas fa-mug-hot"></i> Coffee AI - Bliss Café</h3>
+            <span id="bot-close">&times;</span>
+        </div>
+        <div id="bot-messages">
+            <div class="bot-msg"><p>Namaste! Main Coffee Bot hun ☕ Bean & Bliss Café ka dost. Coffee order karni hai ya café ke baare me janna hai?</p></div>
+        </div>
+        <div class="bot-input">
+            <input type="text" id="user-input" placeholder="Type your message...">
+            <button id="bot-send"><i class="fas fa-paper-plane"></i></button>
+        </div>
+    </div>
+
+    
+
+    <script>
+        let navbar=document.querySelector('.navbar');document.querySelector('#menu-btn').onclick=()=>{navbar.classList.toggle('active')};window.onscroll=()=>{navbar.classList.remove('active')};
+        
+        const modal = document.getElementById('learnMoreModal');
+        const learnBtn = document.getElementById('learnMoreBtn');
+        const closeBtn = document.querySelector('.close');
+        
+        learnBtn.onclick = () => { modal.style.display = 'block'; }
+        closeBtn.onclick = () => { modal.style.display = 'none'; }
+        window.onclick = (e) => { if(e.target == modal) { modal.style.display = 'none'; } }
+        
+        const coffeeBtn=document.getElementById('coffee-bot-btn'),botBox=document.getElementById('coffee-bot-box'),botClose=document.getElementById('bot-close'),sendBtn=document.getElementById('bot-send'),userInput=document.getElementById('user-input'),messages=document.getElementById('bot-messages'),coffeePopup=document.getElementById('coffee-popup');
+        setInterval(()=>{if(botBox.style.display!=='flex'){coffeePopup.style.display='block';setTimeout(()=>{coffeePopup.style.display='none'},3000)}},10000);
+        coffeeBtn.onclick=()=>{botBox.style.display='flex';coffeePopup.style.display='none'};botClose.onclick=()=>botBox.style.display='none';
+        function addMsg(text,sender){const msgDiv=document.createElement('div');msgDiv.className=sender+'-msg';msgDiv.innerHTML='<p>'+text+'</p>';messages.appendChild(msgDiv);messages.scrollTop=messages.scrollHeight}
+        function getBotReply(input){
+            input=input.toLowerCase();
+            if(input.includes('best')&&input.includes('coffee')||input.includes('konsi')&&input.includes('coffee')){return 'Hamari <strong>Cappuccino ₹149</strong> sabse best hai! ☕ Chikmagalur beans, creamy foam. 5-7 min me ready ho jayegi. Try karoge?'}
+            if(input.includes('kitni der')||input.includes('time')||input.includes('ready')||input.includes('banane')){return 'Espresso: 3-4 min ⏱️<br>Cappuccino/Latte: 5-7 min<br>Cold Coffee: 4-5 min<br>Fresh banate hain, isliye thoda time lagta hai ☕❤️'}
+            if(input.includes('cafe')&&input.includes('baare')||input.includes('about')||input.includes('kya')&&input.includes('hai')){return 'Bean & Bliss Café - Mandla Road, Tilhari, Jabalpur 📍<br><br>Yahan aap:<br>1. <a href="menu.html" style="color:#d3ad7f">Menu</a> dekh sakte ho - 15+ coffees<br>2. <a href="products.html" style="color:#d3ad7f">Products</a> - Coffee beans ghar le jao<br>3. <a href="about.html" style="color:#d3ad7f">About</a> - Hamari story padho<br>4. Free WiFi + Cozy seating + Pet friendly 🐕<br><br>Timing: 8 AM - 10 PM Daily'}
+            if(input.includes('price')||input.includes('kitna')||input.includes('cost')||input.includes('daam')){return 'Coffee Prices: ☕💰<br>Espresso: ₹99<br>Americano: ₹119<br>Cappuccino: ₹149<br>Latte: ₹159<br>Cold Coffee: ₹179<br>Hot Chocolate: ₹169<br>Mocha: ₹179<br>Caramel Latte: ₹189<br><br>Sab fresh beans se banti hai!'}
+            if(input.includes('option')||input.includes('types')||input.includes('konsi konsi')){return 'Hamare pass ye coffees hain: ☕<br><strong>Hot:</strong> Espresso, Americano, Cappuccino, Latte, Mocha, Hot Chocolate<br><strong>Cold:</strong> Cold Coffee, Iced Americano, Iced Latte, Frappe<br><strong>Special:</strong> Caramel Latte, Hazelnut Cappuccino<br><br>Konsi try karni hai?'}
+            if(input.includes('location')||input.includes('kahan')||input.includes('address')||input.includes('pata')){return 'Address: 📍<br><strong>Bean & Bliss Café</strong><br>Mandla Road, Tilhari<br>Jabalpur, MP - 482001<br><br>Landmark: Tilhari ke paas<br>Call: +91 98765 43210<br>Email: beanbilsscafe@gmail.com'}
+            if(input.includes('menu')){return 'Menu dekhne ke liye <a href="menu.html" style="color:#d3ad7f">yahan click karo</a> ☕📋 15+ varieties hain!'}
+            if(input.includes('product')||input.includes('beans')||input.includes('kharidna')){return 'Coffee beans ghar le jane ke liye <a href="products.html" style="color:#d3ad7f">Products page</a> dekho ☕ Arabica ₹599, Robusta ₹499, Filter ₹399!'}
+            if(input.includes('thank')||input.includes('thanks')||input.includes('shukriya')||input.includes('dhanyawad')){return 'Most welcome! ☕❤️ Aapka din coffee jaisa meetha rahe! Kabhi bhi aao, main yahin milunga. Phir milenge!'}
+            if(input.includes('owner')||input.includes('founder')||input.includes('kaun')||input.includes('story')){return 'Ravi ji hain founder! ☕ 2020 me start kiya tha. Chikmagalur se beans late hain. Coffee se pyaar hai unko! Milna ho toh café pe mil jayenge 😊'}
+            if(input.includes('timing')||input.includes('open')||input.includes('close')||input.includes('khula')){return 'Roz khule hain: <strong>8:00 AM - 10:00 PM</strong> 🕐<br>Sunday bhi! Aao kabhi bhi ☕'}
+            if(input.includes('contact')||input.includes('baat')||input.includes('phone')){return 'Contact karo: 📞<br><strong>Phone:</strong> +91 98765 43210<br><strong>Email:</strong> beanbilsscafe@gmail.com<br><strong>Address:</strong> Mandla Road, Tilhari, Jabalpur<br><br>Ya contact page pe form bhar do, hum call kar lenge! ☕'}
+            return'Main Coffee Bot hun! ☕ Aap puch sakte ho:<br>1. Best coffee konsi hai?<br>2. Order kitni der me banega?<br>3. Menu/Price kya hai?<br>4. Café kahan hai?<br>5. Coffee options kya hain?<br><br>Kya jaana hai?';
+        }
+        function sendMsg(){const text=userInput.value.trim();if(text==='')return;addMsg(text,'user');userInput.value='';setTimeout(()=>{addMsg(getBotReply(text),'bot')},600)}
+        sendBtn.onclick=sendMsg;userInput.addEventListener('keypress',(e)=>{if(e.key==='Enter')sendMsg()});
+    </script>
+</body>
+</html>

@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Products - Bean & Bliss Café</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;500;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        *{font-family:'Roboto',sans-serif;margin:0;padding:0;box-sizing:border-box;outline:none;border:none;text-decoration:none;text-transform:capitalize;transition:.2s linear}
+        html{font-size:62.5%;overflow-x:hidden;scroll-behavior:smooth}
+        body{background:#010103}
+        section{padding:2rem 7%}
+        .heading{text-align:center;color:#fff;text-transform:uppercase;padding-bottom:3.5rem;font-size:4rem;padding-top:12rem}
+        .heading span{color:#d3ad7f}
+        .btn{margin-top:1rem;display:inline-block;padding:.9rem 3rem;font-size:1.7rem;color:#fff;background:#d3ad7f;cursor:pointer;border-radius:.5rem}
+        .btn:hover{letter-spacing:.2rem;background:#c19a6b}
+        .header{background:#010103;display:flex;align-items:center;justify-content:space-between;padding:1.5rem 7%;border-bottom:.1rem solid rgba(255,255,255,.3);position:fixed;top:0;left:0;right:0;z-index:1000}
+        .header .logo{display:flex;align-items:center;gap:1.5rem;font-size:2.7rem;color:#fff;font-weight:bold;font-family:'Playfair Display',serif}
+        .header .logo i{font-size:4.5rem;color:#d3ad7f;animation:steam 2s ease-in-out infinite}
+        @keyframes steam{0%,100%{transform:translateY(0)}50%{transform:translateY(-5px)}}
+        .header .logo span{color:#d3ad7f}
+        .header .navbar a{margin:0 1rem;font-size:1.6rem;color:#fff}
+        .header .navbar a:hover,.header .navbar a.active{color:#d3ad7f;border-bottom:.1rem solid #d3ad7f;padding-bottom:.5rem}
+        .header .icons{display:flex;align-items:center}
+        .header .icons div{color:#fff;cursor:pointer;font-size:2.5rem;margin-left:2rem;position:relative}
+        .header .icons #cart-btn span{position:absolute;top:-8px;right:-8px;background:#d3ad7f;color:#fff;font-size:1.2rem;width:2rem;height:2rem;line-height:2rem;text-align:center;border-radius:50%}
+        #menu-btn{display:none}
+        .products .box-container{display:grid;grid-template-columns:repeat(auto-fit,minmax(30rem,1fr));gap:1.5rem}
+        .products .box-container .box{text-align:center;border:.1rem solid rgba(255,255,255,.3);padding:2rem;background:#13131a;border-radius:1rem}
+        .products .box-container .box .icons{display:flex;justify-content:center;gap:.5rem;margin-bottom:1rem}
+        .products .box-container .box .icons a{height:5rem;width:5rem;line-height:5rem;font-size:2rem;border:.1rem solid rgba(255,255,255,.3);color:#fff;border-radius:.5rem}
+        .products .box-container .box .icons a:hover{background:#d3ad7f}
+        .products .box-container .box .image{padding:2.5rem 0}
+        .products .box-container .box .image img{height:20rem;width:20rem;object-fit:cover;border-radius:1rem}
+        .products .box-container .box .content h3{color:#fff;font-size:2.5rem;padding:1rem 0}
+        .products .box-container .box .content .stars{padding:1.5rem}
+        .products .box-container .box .content .stars i{font-size:1.7rem;color:#d3ad7f}
+        .products .box-container .box .content .price{color:#fff;font-size:2.5rem;font-weight:600}
+        .products .box-container .box .content .price span{text-decoration:line-through;font-weight:300;font-size:1.5rem;color:#aaa}
+        .products .box-container .box .desc{color:#ccc;font-size:1.4rem;line-height:1.6;margin:1rem 0;text-transform:none}
+        .products .box-container .box:hover{background:#fff;transform:translateY(-5px);box-shadow:0 10px 25px rgba(211,173,127,.3)}
+        .products .box-container .box:hover h3,.products .box-container .box:hover .price{color:#13131a}
+        .products .box-container .box:hover .desc{color:#555}
+        .products .category{margin-bottom:4rem}
+        .products .category h2{color:#d3ad7f;font-size:3.5rem;text-align:center;margin-bottom:3rem;font-family:'Playfair Display',serif}
+        .cart-modal{display:none;position:fixed;z-index:10002;right:0;top:0;width:100%;height:100%;background-color:rgba(0,0,0,0.7)}
+        .cart-content{background:#13131a;position:absolute;right:0;top:0;width:100%;max-width:45rem;height:100%;border-left:2px solid #d3ad7f;animation:slideLeft 0.3s;overflow-y:auto;display:flex;flex-direction:column}
+        @keyframes slideLeft{from{right:-500px}to{right:0}}
+        .cart-header{background:#d3ad7f;padding:2rem;display:flex;align-items:center;justify-content:space-between}
+        .cart-header h2{color:#fff;font-size:2.5rem;font-family:'Playfair Display',serif}
+        .cart-close{color:#fff;font-size:4rem;cursor:pointer;line-height:1}
+        .cart-close:hover{color:#000}
+        .cart-body{padding:2rem;flex:1;overflow-y:auto}
+        .cart-item{display:flex;align-items:center;gap:1.5rem;padding:1.5rem;background:#010103;border-radius:1rem;margin-bottom:1rem;border:.1rem solid rgba(255,255,255,.1)}
+        .cart-item img{width:6rem;height:6rem;border-radius:50%;object-fit:cover}
+        .cart-item-info{flex:1}
+        .cart-item-info h4{color:#fff;font-size:1.8rem;margin-bottom:.5rem}
+        .cart-item-info p{color:#d3ad7f;font-size:1.6rem;font-weight:600}
+        .cart-item-remove{color:#ff4444;font-size:2.5rem;cursor:pointer}
+        .cart-item-remove:hover{color:#ff0000}
+        .cart-empty{text-align:center;padding:5rem 2rem;color:#aaa;font-size:1.8rem}
+        .cart-empty i{font-size:6rem;color:#d3ad7f;margin-bottom:2rem;display:block}
+        .cart-footer{padding:2rem;background:#010103;border-top:.1rem solid rgba(255,255,255,.3)}
+        .cart-total{display:flex;justify-content:space-between;align-items:center;margin-bottom:2rem}
+        .cart-total h3{color:#fff;font-size:2.2rem}
+        .cart-total span{color:#d3ad7f;font-size:2.8rem;font-weight:700}
+        .checkout-btn{width:100%;padding:1.5rem;font-size:1.8rem;background:#d3ad7f;color:#fff;border-radius:.5rem;cursor:pointer;font-weight:600}
+        .checkout-btn:hover{background:#c19a6b}
+        @media (max-width:768px){#menu-btn{display:inline-block}.header .navbar{position:absolute;top:100%;right:-100%;background:#fff;width:30rem;height:calc(100vh - 9.5rem)}.header .navbar.active{right:0}.header .navbar a{color:#13131a;display:block;margin:1.5rem;padding:.5rem;font-size:2rem}.cart-content{max-width:100%}}
+    </style>
+
+
+
+</head>
+<body>
+    <header class="header">
+        <a href="index.html" class="logo">
+       <i class="fas fa-mug-hot"></i>
+       Bean & Bliss <span>Café</span>
+       </a>
+        <nav class="navbar">
+            <a href="index.html">Home</a>
+            <a href="about.html">About</a>
+            <a href="menu.html">Menu</a>
+            <a href="products.html" class="active">Products</a>
+            <a href="contact.html">Contact</a>
+        </nav>
+        <div class="icons">
+            <div id="cart-btn" class="fas fa-shopping-cart">
+                <span id="cart-count">0</span>
+            </div>
+            <div id="menu-btn" class="fas fa-bars"></div>
+        </div>
+    </header>
+
+
+
+    <section class="products" id="products">
+        <h1 class="heading">our <span>products</span></h1>
+        
+        <div class="category">
+            <h2>Coffee Beans ☕</h2>
+            <div class="box-container">
+                <div class="box" data-id="15" data-name="Arabica Beans 250g" data-price="599" data-img="https://images.unsplash.com/photo-1559056199-641a0ac8b55e?w=400">
+                    <div class="icons">
+                        <a href="#" class="fas fa-shopping-cart add-to-cart"></a>
+                        <a href="#" class="fas fa-heart"></a>
+                        <a href="#" class="fas fa-eye"></a>
+                    </div>
+                    <div class="image">
+                        <img src="https://images.unsplash.com/photo-1559056199-641a0ac8b55e?w=400" alt="Arabica Beans">
+                    </div>
+                    <div class="content">
+                        <h3>Arabica Beans 250g</h3>
+                        <div class="stars">
+                            <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star-half-alt"></i>
+                        </div>
+                        <div class="price">₹599 <span>₹699</span></div>
+                        <p class="desc">Premium Chikmagalur Arabica. Smooth, sweet notes. Medium roast.</p>
+                        <button class="btn add-to-cart">Add to Cart</button>
+                    </div>
+                </div>
+                <div class="box" data-id="16" data-name="Robusta Beans 250g" data-price="499" data-img="https://images.unsplash.com/photo-1447933601403-0c6688de566e?w=400">
+                    <div class="icons">
+                        <a href="#" class="fas fa-shopping-cart add-to-cart"></a>
+                        <a href="#" class="fas fa-heart"></a>
+                        <a href="#" class="fas fa-eye"></a>
+                    </div>
+                    <div class="image">
+                        <img src="https://images.unsplash.com/photo-1447933601403-0c6688de566e?w=400" alt="Robusta Beans">
+                    </div>
+                    <div class="content">
+                        <h3>Robusta Beans 250g</h3>
+                        <div class="stars">
+                            <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="far fa-star"></i>
+                        </div>
+                        <div class="price">₹499 <span>₹599</span></div>
+                        <p class="desc">Strong & bold. High caffeine. Perfect for espresso lovers!</p>
+                        <button class="btn add-to-cart">Add to Cart</button>
+                    </div>
+                </div>
+                <div class="box" data-id="17" data-name="Filter Coffee Powder" data-price="399" data-img="https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?w=400">
+                    <div class="icons">
+                        <a href="#" class="fas fa-shopping-cart add-to-cart"></a>
+                        <a href="#" class="fas fa-heart"></a>
+                        <a href="#" class="fas fa-eye"></a>
+                    </div>
+                    <div class="image">
+                        <img src="https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?w=400" alt="Filter Coffee">
+                    </div>
+                    <div class="content">
+                        <h3>Filter Coffee Powder 200g</h3>
+                        <div class="stars">
+                            <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+                        </div>
+                        <div class="price">₹399 <span>₹449</span></div>
+                        <p class="desc">South Indian style. 80% Coffee + 20% Chicory. Traditional taste!</p>
+                        <button class="btn add-to-cart">Add to Cart</button>
+                    </div>
+                </div>
+                <div class="box" data-id="18" data-name="Cold Brew Blend" data-price="649" data-img="https://images.unsplash.com/photo-1611854779393-1b2da9d400fe?w=400">
+                    <div class="icons">
+                        <a href="#" class="fas fa-shopping-cart add-to-cart"></a>
+                        <a href="#" class="fas fa-heart"></a>
+                        <a href="#" class="fas fa-eye"></a>
+                    </div>
+                    <div class="image">
+                        <img src="https://images.unsplash.com/photo-1611854779393-1b2da9d400fe?w=400" alt="Cold Brew">
+                    </div>
+                    <div class="content">
+                        <h3>Cold Brew Blend 250g</h3>
+                        <div class="stars">
+                            <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star-half-alt"></i>
+                        </div>
+                        <div class="price">₹649 <span>₹749</span></div>
+                        <p class="desc">Coarse ground for cold brew. Smooth, less acidic. Summer special!</p>
+                        <button class="btn add-to-cart">Add to Cart</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+
+        <div class="category">
+            <h2>Merchandise 🎁</h2>
+            <div class="box-container">
+                <div class="box" data-id="19" data-name="Bean & Bliss Mug" data-price="299" data-img="https://images.unsplash.com/photo-1514228742587-6b1558fcca3d?w=400">
+                    <div class="icons">
+                        <a href="#" class="fas fa-shopping-cart add-to-cart"></a>
+                        <a href="#" class="fas fa-heart"></a>
+                        <a href="#" class="fas fa-eye"></a>
+                    </div>
+                    <div class="image">
+                        <img src="https://images.unsplash.com/photo-1514228742587-6b1558fcca3d?w=400" alt="Coffee Mug">
+                    </div>
+                    <div class="content">
+                        <h3>Bean & Bliss Mug</h3>
+                        <div class="stars">
+                            <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="far fa-star"></i>
+                        </div>
+                        <div class="price">₹299 <span>₹399</span></div>
+                        <p class="desc">Ceramic mug 350ml. Café logo print. Microwave safe!</p>
+                        <button class="btn add-to-cart">Add to Cart</button>
+                    </div>
+                </div>
+                <div class="box" data-id="20" data-name="French Press" data-price="899" data-img="https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=400">
+                    <div class="icons">
+                        <a href="#" class="fas fa-shopping-cart add-to-cart"></a>
+                        <a href="#" class="fas fa-heart"></a>
+                        <a href="#" class="fas fa-eye"></a>
+                    </div>
+                    <div class="image">
+                        <img src="https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=400" alt="French Press">
+                    </div>
+                    <div class="content">
+                        <h3>French Press 600ml</h3>
+                        <div class="stars">
+                            <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+                        </div>
+                        <div class="price">₹899 <span>₹1099</span></div>
+                        <p class="desc">Glass + Stainless steel. Make café-style coffee at home!</p>
+                        <button class="btn add-to-cart">Add to Cart</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+
+
+    <div id="cart-modal" class="cart-modal">
+        <div class="cart-content">
+            <div class="cart-header">
+                <h2><i class="fas fa-shopping-cart"></i> Your Cart</h2>
+                <span class="cart-close">&times;</span>
+            </div>
+            <div class="cart-body" id="cart-items">
+                <div class="cart-empty">
+                    <i class="fas fa-shopping-basket"></i>
+                    <p>Your cart is empty</p>
+                    <p style="font-size:1.4rem;margin-top:1rem">Add some products!</p>
+                </div>
+            </div>
+            <div class="cart-footer" id="cart-footer" style="display:none">
+                <div class="cart-total">
+                    <h3>Total:</h3>
+                    <span id="cart-total">₹0</span>
+                </div>
+                <button class="checkout-btn" onclick="checkout()">Proceed to Checkout</button>
+            </div>
+        </div>
+    </div>
+
+
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            let cart = [];
+            const cartBtn = document.getElementById('cart-btn');
+            const cartModal = document.getElementById('cart-modal');
+            const cartClose = document.querySelector('.cart-close');
+            const cartCount = document.getElementById('cart-count');
+            const cartItems = document.getElementById('cart-items');
+            const cartFooter = document.getElementById('cart-footer');
+            const cartTotal = document.getElementById('cart-total');
+            const navbar = document.querySelector('.navbar');
+            const menuBtn = document.querySelector('#menu-btn');
+
+            if(menuBtn) {
+                menuBtn.onclick = () => { navbar.classList.toggle('active') };
+            }
+            window.onscroll = () => { if(navbar) navbar.classList.remove('active') };
+
+            document.querySelectorAll('.add-to-cart').forEach(btn => {
+                btn.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const box = this.closest('.box');
+                    const id = box.dataset.id;
+                    const name = box.dataset.name;
+                    const price = parseInt(box.dataset.price);
+                    const img = box.dataset.img;
+                    
+                    const existingItem = cart.find(item => item.id === id);
+                    if(existingItem) {
+                        existingItem.qty++;
+                    } else {
+                        cart.push({id, name, price, img, qty: 1});
+                    }
+                    updateCart();
+                    
+                    this.textContent = 'Added! ✓';
+                    this.style.background = '#4CAF50';
+                    setTimeout(() => {
+                        this.textContent = 'Add to Cart';
+                        this.style.background = '#d3ad7f';
+                    }, 1000);
+                });
+            });
+            
+            function updateCart() {
+                const totalItems = cart.reduce((sum, item) => sum + item.qty, 0);
+                cartCount.textContent = totalItems;
+                
+                if(cart.length === 0) {
+                    cartItems.innerHTML = '<div class="cart-empty"><i class="fas fa-shopping-basket"></i><p>Your cart is empty</p><p style="font-size:1.4rem;margin-top:1rem">Add some products!</p></div>';
+                    cartFooter.style.display = 'none';
+                } else {
+                    cartItems.innerHTML = cart.map(item => `
+                        <div class="cart-item">
+                            <img src="${item.img}" alt="${item.name}">
+                            <div class="cart-item-info">
+                                <h4>${item.name}</h4>
+                                <p>₹${item.price} x ${item.qty} = ₹${item.price * item.qty}</p>
+                            </div>
+                            <div class="cart-item-remove" onclick="removeFromCart('${item.id}')">
+                                <i class="fas fa-trash"></i>
+                            </div>
+                        </div>
+                    `).join('');
+                    
+                    const totalAmount = cart.reduce((sum, item) => sum + (item.price * item.qty), 0);
+                    cartTotal.textContent = '₹' + totalAmount;
+                    cartFooter.style.display = 'block';
+                }
+            }
+            
+            window.removeFromCart = function(id) {
+                cart = cart.filter(item => item.id !== id);
+                updateCart();
+            }
+            
+            window.checkout = function() {
+                const totalAmount = cart.reduce((sum, item) => sum + (item.price * item.qty), 0);
+                const totalItems = cart.reduce((sum, item) => sum + item.qty, 0);
+                alert('Order Placed Successfully! 🎉\n\nTotal Items: ' + totalItems + '\nTotal Amount: ₹' + totalAmount + '\n\nThank you for shopping with Bean & Bliss Café!\nWe will contact you shortly. ☕');
+                cart = [];
+                updateCart();
+                cartModal.style.display = 'none';
+            }
+            
+            cartBtn.onclick = () => { cartModal.style.display = 'block'; }
+            cartClose.onclick = () => { cartModal.style.display = 'none'; }
+            window.onclick = (e) => { 
+                if(e.target == cartModal) { cartModal.style.display = 'none'; }
+            }
+        });
+    </script>
+</body>
+</html>
