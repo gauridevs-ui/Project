@@ -17,19 +17,19 @@ mail = Mail(app)
 
 @app.route('/')
 def home():
-    return render_template('index.html')
+    return render_templates('index.html')
 
 @app.route('/about')
 def about():
-    return render_template('about.html')
+    return render_templates('about.html')
 
 @app.route('/menu')
 def menu():
-    return render_template('menu.html')
+    return render_templates('menu.html')
 
 @app.route('/products')
 def products():
-    return render_template('products.html')
+    return render_templates('products.html')
 
 @app.route('/contact', methods=['GET', 'POST'])
 def contact():
@@ -49,7 +49,7 @@ def contact():
         except Exception as e:
             flash(f'Error: {str(e)}', 'danger')
             
-    return render_template('contact.html')
+    return render_templates('contact.html')
 
 if __name__ == '__main__':
     app.run(debug=True)
