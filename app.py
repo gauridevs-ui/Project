@@ -1,34 +1,19 @@
 from flask import Flask, send_from_directory, request
-from flask_mysqldb import MySQL
 from flask_mail import Mail, Message
 import os
 
 app = Flask(__name__)
 
-# ================= MYSQL =================
-
-app.config['MYSQL_HOST'] = 'localhost'
-app.config['MYSQL_USER'] = 'root'
-app.config['MYSQL_PASSWORD'] = ''
-app.config['MYSQL_DB'] = 'coffee_shop'
-
-mysql = MySQL(app)
-
 # ================= GMAIL =================
-
 app.config['MAIL_SERVER'] = 'smtp.gmail.com'
 app.config['MAIL_PORT'] = 587
 app.config['MAIL_USE_TLS'] = True
-
-import os
-
 app.config['MAIL_USERNAME'] = os.environ.get('MAIL_USERNAME')
 app.config['MAIL_PASSWORD'] = os.environ.get('MAIL_PASSWORD')
 
 mail = Mail(app)
 
 # ================= HTML PAGES =================
-
 @app.route('/')
 def home():
     return send_from_directory('.', 'index.html')
@@ -50,44 +35,32 @@ def productpage():
     return send_from_directory('.', 'products.html')
 
 # ================= CONTACT FORM =================
-
 @app.route('/contact', methods=['POST'])
 def contact():
-
     name = request.form['name']
     email = request.form['email']
     phone = request.form['phone']
 
-    # SAVE TO DATABASE
-
-    cur = mysql.connection.cursor()
-
-    cur.execute(
-        "INSERT INTO contacts(name,email,phone) VALUES(%s,%s,%s)",
-        (name, email, phone)
-    )
-
-    mysql.connection.commit()
-    cur.close()
+    # MYSQL CODE COMMENT KAR DIYA - Render pe nahi chalega
+    # cur = mysql.connection.cursor()
+    # cur.execute("INSERT INTO contacts(name,email,phone) VALUES(%s,%s,%s)", (name, email, phone))
+    # mysql.connection.commit()
+    # cur.close()
 
     # SEND EMAIL
-
     msg = Message(
         'New Contact Message',
         sender=app.config['MAIL_USERNAME'],
-        recipients=[app.config['MAIL_USERNAME']]
+        recipients=[app.config['MAIL_USERNAME']]  # Khud ko mail jayega
     )
-
     msg.body = f'''
     New Customer Contact
-
+    
     Name: {name}
     Email: {email}
     Phone: {phone}
     '''
-
     mail.send(msg)
-
     return "Message Sent Successfully!"
 
 if __name__ == '__main__':
